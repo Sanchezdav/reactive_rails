@@ -1,0 +1,10 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3><%= @project.name %></h3>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <%= created_at_formatted %>
+      <p class="card-text"><%= @project.description %></p>
+      <%= link_to 'See more', project_path(@project), class: 'card-link' %>
+    </h6>
+  </div>
+</div>

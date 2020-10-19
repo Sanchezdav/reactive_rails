@@ -1,0 +1,11 @@
+<div class="card <%= border_color %> shadow-sm mb-3" id="<%= @task.id %>">
+  <div class="card-body">
+    <span class="badge <%= badge_color %>"><%= @task.status %></span>
+    <div class="d-flex align-items-center justify-content-between">
+      <h6 class="mt-2 mb-0"><%= @task.content %></h6>
+      <%= select_tag "status", options_for_select(Task.statuses.map { |k, v| [k.humanize, v] }, Task.statuses[@task.status]),
+        { class: 'form-select',
+          data: { reflex: "change->TasksReflex#change_status", task_id: @task.id } } %>
+    </div>
+  </div>
+</div>
