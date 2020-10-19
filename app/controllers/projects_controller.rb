@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @task = Task.new
+    @tasks = @project.tasks.incomplete
   end
 
   # GET /projects/new

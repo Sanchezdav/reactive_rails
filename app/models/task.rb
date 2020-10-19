@@ -3,9 +3,11 @@ class Task < ApplicationRecord
 
   validates :content, presence: true
 
-  enum status: { incoming: 'incoming', in_progress: 'in_progress', done: 'done' }
+  enum status: { incoming: 0, in_progress: 1, done: 2 }
 
-  def color
+  scope :incomplete, -> { where.not(status: :done) }
+
+  def badge_color
     case status
     when 'incoming'
       'badge-secondary'
@@ -15,6 +17,15 @@ class Task < ApplicationRecord
       'badge-success'
     else
       'badge-secondary'
+    end
+  end
+
+  def border_color
+    case status
+    when 'in_progress'
+      'border-primary'
+    when 'done'
+      'border-success'
     end
   end
 end

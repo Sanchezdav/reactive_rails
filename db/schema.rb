@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_17_034721) do
+ActiveRecord::Schema.define(version: 2020_10_19_002029) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2020_10_17_034721) do
   create_table "tasks", force: :cascade do |t|
     t.integer "project_id", null: false
     t.string "content"
-    t.string "status", default: "incoming"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"

@@ -11,39 +11,72 @@
   <hr>
 </div>
 
-<section class="col-md-6 p-0">
-  <h3>Tasks</h3>
-  <div data-controller="forms">
-    <%= form_with(
-          model: [@project, @task],
-          html: { data: { 
-                  type: "html",
-                  action: "ajax:error->forms#onSubmitError" }}) do |form| %>
-      <div class="input-group mb-3">
-        <%= form.text_field :content, class: 'form-control', placeholder: 'Add a task', data: { target: 'forms.input' } %>
-        <div class="input-group-append">
-          <%= form.submit 'Create', class: 'btn btn-primary', data: { target: 'forms.submitButton', disable_with: 'Creating...' } %>
-        </div>
+<section>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Tasks (<%= @tasks.count %>)</h3>
+      <div class="progress mb-3">
+        <div class="progress-bar" role="progressbar" style="width: <%= @project.completion_percentage %>%;" aria-valuenow="<%= @project.completion_percentage %>" aria-valuemin="0" aria-valuemax="100"><%= @project.completion_percentage %>%</div>
       </div>
-      <div class="mb-3">
-        <div data-target="forms.errorsList"></div>
+      <div data-controller="forms">
+        <%= form_with(
+              model: [@project, @task],
+              html: { data: { 
+                      type: "html",
+                      action: "ajax:error->forms#onSubmitError" }}) do |form| %>
+          <div class="input-group mb-3">
+            <%= form.text_field :content, class: 'form-control', placeholder: 'Add a task', data: { target: 'forms.input' } %>
+            <div class="input-group-append">
+              <%= form.submit 'Create', class: 'btn btn-primary', data: { target: 'forms.submitButton', disable_with: 'Creating...' } %>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div data-target="forms.errorsList"></div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-  </div>
 
-  <% if @project.tasks.any? %>
-    <% @project.tasks.each do |task| %>
-      <div class="card shadow-sm mb-3">
-        <div class="card-body">
-          <span class="badge <%= task.color %>"><%= task.status %></span>
-          <h6 class="mt-2 mb-0"><%= task.content %></h6>
+      <% if @tasks.any? %>
+        <% @tasks.each do |task| %>
+          <div class="card <%= task.border_color %> shadow-sm mb-3" id="<%= task.id %>">
+            <div class="card-body">
+              <span class="badge <%= task.badge_color %>"><%= task.status %></span>
+              <div class="d-flex align-items-center justify-content-between">
+                <h6 class="mt-2 mb-0"><%= task.content %></h6>
+                <%= select_tag "status", options_for_select(Task.statuses.map { |k, v| [k.humanize, v] }, Task.statuses[task.status]),
+                  { class: 'form-select',
+                    data: { reflex: "change->TasksReflex#change_status", task_id: task.id } } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="mt-5">
+          <h5 class="text-muted">Come on, add some tasks ☝️</h5>
         </div>
-      </div>
-    <% end %>
-  <% else %>
-    <div class="mt-5">
-      <h5 class="text-muted">Create your first task ☝️</h5>
+      <% end %>
     </div>
-  <% end %>
-
+    <div class="col-md-6">
+      <h3>Done (<%= Task.done.count %>)</h3>
+      <% if Task.done.any? %>
+        <% Task.done.each do |task| %>
+          <div class="card <%= task.border_color %> shadow-sm mb-3" id="<%= task.id %>">
+            <div class="card-body">
+              <span class="badge <%= task.badge_color %>"><%= task.status %></span>
+              <div class="d-flex align-items-center justify-content-between">
+                <h6 class="mt-2 mb-0"><%= task.content %></h6>
+                <%= select_tag "status", options_for_select(Task.statuses.map { |k, v| [k.humanize, v] }, Task.statuses[task.status]),
+                  { class: 'form-select',
+                    data: { reflex: "change->TasksReflex#change_status", task_id: task.id } } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="mt-5">
+          <h5 class="text-muted">You don't have any done task 😞</h5>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </section>
