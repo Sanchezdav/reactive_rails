@@ -1,24 +1,14 @@
-# README
+# Reactive Rails with Stimulus Reflex
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Stack
 
-Things you may want to cover:
+- Ruby 2.7.0
+- Rails 6.0.3
 
-* Ruby version
+## Development
 
-* System dependencies
+After clone the repo yoou need to run `bundle install` to get all dependencies from Gemfile and then `yarn install` to get all js dependencies.
 
-* Configuration
+Redis is necessary to use reflex so to install it with brew just use `brew install redis` and then start the service with `brew services start redis`.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To execute the app run `rails s` or if you prefer you can install foreman `gem install foreman` to run both servers at once, rails server and webpack server, with this command `foreman start`. Also be sure enable cache in dev mode to use reflex `rails dev:cache`.

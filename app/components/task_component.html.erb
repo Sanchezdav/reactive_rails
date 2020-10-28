@@ -7,5 +7,12 @@
         { class: 'form-select',
           data: { reflex: "change->TasksReflex#change_status", task_id: @task.id } } %>
     </div>
+    <div class="mt-2">
+      <button
+        class="btn btn-outline-danger btn-sm"
+        data-action="click->tasks#delete"
+        data-task_id="<%= @task.id %>"
+      >Delete</button>
+    </div>
   </div>
 </div>
